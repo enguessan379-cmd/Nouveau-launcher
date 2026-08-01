@@ -84,6 +84,7 @@ void CGame::Initialize()
 {
 	FLog("CGame initializing..");
 
+    InitScripting();
     ApplySAMPPatchesInGame();
 	GameResetRadarColors();
 
