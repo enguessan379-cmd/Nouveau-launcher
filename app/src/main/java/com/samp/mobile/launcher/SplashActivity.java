@@ -44,7 +44,7 @@ import javax.microedition.khronos.opengles.GL10;
 @Obfuscate
 public class SplashActivity extends AppCompatActivity {
 
-    private final String[] permissions = {"android.permission.READ_EXTERNAL_STORAGE", "android.permission.WRITE_EXTERNAL_STORAGE", "android.permission.RECORD_AUDIO"};
+    private final String[] permissions = {"android.permission.RECORD_AUDIO"};
 
     public int mGpuType;
 
@@ -145,6 +145,16 @@ public class SplashActivity extends AppCompatActivity {
 
                     if (isPermissionsGranted()) {
                         mIsBind = bindService(new Intent(SplashActivity.this, UpdateService.class), mConnection, Context.BIND_AUTO_CREATE);
+                    } else if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R
+                            && !android.os.Environment.isExternalStorageManager()) {
+                        try {
+                            Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                            intent.setData(android.net.Uri.parse("package:" + getPackageName()));
+                            startActivityForResult(intent, 2);
+                        } catch (Exception e) {
+                            Intent intent = new Intent(android.provider.Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                            startActivityForResult(intent, 2);
+                        }
                     } else {
                         ActivityCompat.requestPermissions(SplashActivity.this,
                                 permissions,
@@ -261,6 +271,12 @@ public class SplashActivity extends AppCompatActivity {
 
     public boolean isPermissionsGranted()
     {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            if (!android.os.Environment.isExternalStorageManager()) {
+                return false;
+            }
+        }
+
         int size = permissions.length;
 
         for (int i = 0; i < size; i++) {
@@ -293,6 +309,18 @@ public class SplashActivity extends AppCompatActivity {
             mIsBind = bindService(new Intent(this, UpdateService.class), mConnection, Context.BIND_AUTO_CREATE);
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2 && !mIsBind) {
+            if (isPermissionsGranted()) {
+                mIsBind = bindService(new Intent(this, UpdateService.class), mConnection, Context.BIND_AUTO_CREATE);
+            } else {
+                Toast.makeText(this, "Permissions not granted!", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     @Override
