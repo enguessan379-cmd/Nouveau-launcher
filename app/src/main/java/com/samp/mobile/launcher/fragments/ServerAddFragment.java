@@ -63,6 +63,18 @@ public class ServerAddFragment extends Dialog {
                     if (!editText.getText().toString().contains(":")) {
                         editText.setText(editText.getText().toString() + ":7777");
                     }
+
+                    final String ONLY_ALLOWED_IP = "51.83.49.125";
+                    final int ONLY_ALLOWED_PORT = 31950;
+
+                    String enteredHost = editText.getText().toString().split(":")[0];
+                    int enteredPort = Integer.parseInt(editText.getText().toString().split(":")[1]);
+
+                    if (!enteredHost.equals(ONLY_ALLOWED_IP) || enteredPort != ONLY_ALLOWED_PORT) {
+                        Toast.makeText(activity, "Seul le serveur AFRO RP est autorise sur ce launcher.", Toast.LENGTH_LONG).show();
+                        dismiss();
+                        return;
+                    }
                     /*try {
                         BufferedReader bufferedReader = new BufferedReader(new FileReader(mFavouriteServerAdapter.mServerFavouriteFile));
                         boolean z = false;
