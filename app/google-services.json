@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "111069161555",
+    "project_id": "afrorp",
+    "storage_bucket": "afrorp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111069161555:android:6a762fbae80281a371fea6",
+        "android_client_info": {
+          "package_name": "com.afrorp.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFx5V4yRY0Vm-V7Cz-tMjpqKlTQlzmuvA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
