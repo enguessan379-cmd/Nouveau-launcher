@@ -166,7 +166,7 @@ RakPeer::RakPeer()
 	rawBytesSent = rawBytesReceived = compressedBytesSent = compressedBytesReceived = 0;
 	outputTree = inputTree = 0;
 	connectionSocket = INVALID_SOCKET;
-	MTUSize = DEFAULT_MTU_SIZE;
+	MTUSize = MAXIMUM_MTU_SIZE;
 	trackFrequencyTable = false;
 	maximumIncomingConnections = 0;
 	maximumNumberOfPeers = 0;
