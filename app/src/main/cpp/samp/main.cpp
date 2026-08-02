@@ -205,6 +205,8 @@ void handler3(int signum, siginfo_t *info, void* contextPtr)
 	return;
 }
 
+void MainMenu_OnStartSAMP();
+
 void DoInitStuff()
 {
 	if (bGameInited == false)
@@ -222,6 +224,12 @@ void DoInitStuff()
 		pGame->Initialize();
 		pGame->SetMaxStats();
 		pGame->ToggleThePassingOfTime(false);
+
+		// Runs the same native engine init the singleplayer main menu
+		// would normally trigger before starting a game (RenderWare/HUD/
+		// script globals). Never fires on its own since this launcher
+		// connects straight to multiplayer and skips that menu.
+		MainMenu_OnStartSAMP();
 
 		// voice
 		/*LogVoice("[dbg:samp:load] : module loading...");
